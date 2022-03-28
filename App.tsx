@@ -1,20 +1,40 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { NavigationContainer } from '@react-navigation/native'
+import HistoryScreen from './screens/HistoryScreen'
+import AnalyticsScreen from './screens/AnalyticsScreen'
+import HomeScreen from './screens/HomeScreen'
 
-export default function App() {
+const BottomTabs = createBottomTabNavigator()
+
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    <NavigationContainer>
+      <BottomTabs.Navigator>
+        <BottomTabs.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+        />
+        <BottomTabs.Screen
+          name="HistoryScreen"
+          component={HistoryScreen}
+        />
+        <BottomTabs.Screen
+          name="AnalyticsScreen"
+          component={AnalyticsScreen}
+        />
+      </BottomTabs.Navigator>
+    </NavigationContainer>
+  )
 }
 
+export default App
+
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
   },
-});
+})
