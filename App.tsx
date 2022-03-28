@@ -7,10 +7,19 @@ import HomeScreen from './screens/HomeScreen'
 import MoodProvider from './context/MoodProvider'
 import Icon from '@expo/vector-icons/MaterialCommunityIcons'
 import { theme } from './theme'
+import { useFonts } from 'expo-font'
 
 const BottomTabs = createBottomTabNavigator()
 
 const App = () => {
+  const [loaded] = useFonts({
+    KalamBold: require('./assets/fonts/Kalam-Bold.ttf'),
+    KalamRegular: require('./assets/fonts/Kalam-Regular.ttf'),
+    KalamLight: require('./assets/fonts/Kalam-Light.ttf'),
+  })
+
+  if (!loaded) return null
+
   return (
     <MoodProvider>
       <NavigationContainer>
@@ -19,6 +28,7 @@ const App = () => {
             tabBarActiveTintColor: theme.colorBlue,
             tabBarInactiveTintColor: theme.colorGrey,
             tabBarShowLabel: false,
+            headerTitleStyle: { fontFamily: theme.fontFamilyBold },
             tabBarIcon: ({ size, color }) => {
               if (route.name === 'HomeScreen') {
                 return (
