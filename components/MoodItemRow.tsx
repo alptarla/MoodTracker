@@ -1,14 +1,28 @@
-import { StyleSheet, Text, View } from 'react-native'
+import {
+  LayoutAnimation,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import React from 'react'
 import { MoodOptionWithTimestamp } from '../types'
 import format from 'date-fns/format'
 import { theme } from '../theme'
+import useMood from '../hooks/useMood'
 
 interface Props {
   item: MoodOptionWithTimestamp
 }
 
 const MoodItemRow: React.FC<Props> = ({ item }) => {
+  const { removeMood } = useMood()
+
+  const handleRemove = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+    removeMood(item)
+  }
+
   return (
     <View style={styles.moodItem}>
       <View style={styles.iconAndDescription}>
@@ -18,6 +32,12 @@ const MoodItemRow: React.FC<Props> = ({ item }) => {
       <Text style={styles.moodDate}>
         {format(new Date(item.timestamp), "dd MM, yyyy 'at' h:mmaaa")}
       </Text>
+      <Pressable
+        hitSlop={16}
+        onPress={handleRemove}
+      >
+        <Text style={styles.removeText}>Delete</Text>
+      </Pressable>
     </View>
   )
 }
@@ -51,5 +71,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: theme.fontFamilyLight,
     color: theme.colorLavender,
+  },
+  removeText: {
+    color: theme.colorBlue,
+    fontFamily: theme.fontFamilyLight,
   },
 })

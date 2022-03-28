@@ -8,12 +8,15 @@ const HistoryScreen = () => {
 
   return (
     <ScrollView>
-      {moodList.map((item) => (
-        <MoodItemRow
-          item={item}
-          key={item.timestamp}
-        />
-      ))}
+      {moodList
+        .slice(0)
+        .reverse()
+        .map((item) => (
+          <MoodItemRow
+            item={item}
+            key={item.timestamp}
+          />
+        ))}
     </ScrollView>
   )
 }

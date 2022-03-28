@@ -30,11 +30,13 @@ const setAppData = async (newData: AppData) => {
 type MoodContextType = {
   moodList: MoodOptionWithTimestamp[]
   addMood: (mood: MoodOptionType) => void
+  removeMood: (mood: MoodOptionWithTimestamp) => void
 }
 
 const defaultValue = {
   moodList: [],
   addMood: () => {},
+  removeMood: () => {},
 }
 
 export const MoodContext = createContext<MoodContextType>(defaultValue)
@@ -61,8 +63,16 @@ const MoodProvider: React.FC = ({ children }) => {
     })
   }
 
+  const removeMood = (mood: MoodOptionWithTimestamp) => {
+    setMoodList((prev) => {
+      const newValue = prev.filter((item) => item.timestamp !== mood.timestamp)
+      setAppData({ moods: newValue })
+      return newValue
+    })
+  }
+
   return (
-    <MoodContext.Provider value={{ moodList, addMood }}>
+    <MoodContext.Provider value={{ moodList, addMood, removeMood }}>
       {children}
     </MoodContext.Provider>
   )
