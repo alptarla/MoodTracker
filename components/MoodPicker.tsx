@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
+import React, { useState } from 'react'
+import { MoodOptionType } from '../types'
 
-const moodOptions = [
+const moodOptions: MoodOptionType[] = [
   { emoji: '🧑‍💻', description: 'studious' },
   { emoji: '🤔', description: 'pensive' },
   { emoji: '😊', description: 'happy' },
@@ -10,15 +11,29 @@ const moodOptions = [
 ]
 
 const MoodPicker = () => {
+  const [selectedMood, setSelectedMood] = useState<MoodOptionType | null>(null)
+
+  const handleSelectMood = (emoji: MoodOptionType) => {
+    return () => setSelectedMood(emoji)
+  }
+
   return (
     <View style={styles.moodList}>
       {moodOptions.map((option) => (
-        <Text
-          key={option.emoji}
-          style={styles.moodText}
-        >
-          {option.emoji}
-        </Text>
+        <View key={option.emoji}>
+          <Pressable
+            onPress={handleSelectMood(option)}
+            style={[
+              styles.moodItem,
+              option.emoji === selectedMood?.emoji && styles.selectedMoodItem,
+            ]}
+          >
+            <Text style={styles.moodText}>{option.emoji}</Text>
+          </Pressable>
+          <Text style={styles.descriptionText}>
+            {selectedMood?.emoji === option.emoji && option.description}
+          </Text>
+        </View>
       ))}
     </View>
   )
@@ -34,5 +49,24 @@ const styles = StyleSheet.create({
   },
   moodText: {
     fontSize: 32,
+  },
+  moodItem: {
+    width: 60,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 30,
+    marginBottom: 5,
+  },
+  selectedMoodItem: {
+    borderWidth: 2,
+    backgroundColor: '#454c73',
+    borderColor: '#fff',
+  },
+  descriptionText: {
+    color: '#454c73',
+    fontWeight: 'bold',
+    fontSize: 10,
+    textAlign: 'center',
   },
 })
