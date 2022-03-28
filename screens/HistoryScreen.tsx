@@ -1,11 +1,20 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 import React from 'react'
+import useMood from '../hooks/useMood'
+import MoodItemRow from '../components/MoodItemRow'
 
 const HistoryScreen = () => {
+  const { moodList } = useMood()
+
   return (
-    <View>
-      <Text>HistoryScreen</Text>
-    </View>
+    <ScrollView>
+      {moodList.map((item) => (
+        <MoodItemRow
+          item={item}
+          key={item.timestamp}
+        />
+      ))}
+    </ScrollView>
   )
 }
 

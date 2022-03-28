@@ -1,25 +1,14 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import { StyleSheet, View } from 'react-native'
+import React from 'react'
 import MoodPicker from '../components/MoodPicker'
-import { MoodOptionType, MoodOptionWithTimestamp } from '../types'
-import format from 'date-fns/format'
-import MoodItemRow from '../components/MoodItemRow'
+import useMood from '../hooks/useMood'
 
 const HomeScreen = () => {
-  const [moodList, setMoodList] = useState<MoodOptionWithTimestamp[]>([])
-
-  const handleSelectMood = (mood: MoodOptionType) =>
-    setMoodList((prev) => [...prev, { mood, timestamp: Date.now() }])
+  const { addMood } = useMood()
 
   return (
     <View style={styles.screen}>
-      <MoodPicker onSelectMood={handleSelectMood} />
-      {moodList.map((item) => (
-        <MoodItemRow
-          item={item}
-          key={item.timestamp}
-        />
-      ))}
+      <MoodPicker onSelectMood={addMood} />
     </View>
   )
 }
